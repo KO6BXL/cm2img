@@ -10,3 +10,4 @@ To save to file:
 
 go run . $FILENAME > output
 
+NOTE: Only supports jpeg's and png's
