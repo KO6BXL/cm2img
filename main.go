@@ -2,7 +2,6 @@ package cm2img
 
 import (
 	"errors"
-	"fmt"
 	"image"
 	"image/jpeg"
 	"image/png"
@@ -14,7 +13,7 @@ import (
 	"github.com/nameless9000/cm2go/build"
 )
 
-func Gen(mode, imgFile string) {
+func Gen(mode, imgFile string) string {
 
 	img, err := os.Open(imgFile)
 
@@ -53,7 +52,7 @@ func Gen(mode, imgFile string) {
 			log.Fatal(err)
 		}
 
-		fmt.Println(out)
+		return out
 	} else if mode == "fine" {
 		out, err := build.Compile([]block.Collection{fineMode(Image)})
 
@@ -61,9 +60,9 @@ func Gen(mode, imgFile string) {
 			log.Fatal(err)
 		}
 
-		fmt.Println(out)
+		return out
 	}
-
+	return "ERROR"
 }
 
 func normMode(Image image.Image) block.Collection {
