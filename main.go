@@ -5,7 +5,6 @@ import (
 	"image"
 	"image/jpeg"
 	"image/png"
-	"log"
 	"os"
 	"path"
 
@@ -13,58 +12,39 @@ import (
 	"github.com/nameless9000/cm2go/build"
 )
 
-func Gen(mode, imgFile string) string {
+func Gen(mode, imgFile string) (string, error) {
 
 	img, err := os.Open(imgFile)
 
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	defer img.Close()
-	var supportedTypes = [...]string{
-		".jpeg",
-		".png",
-		".jpg",
-	}
-
-	var isSupported = false
-
-	for _, fileExt := range supportedTypes {
-		if path.Ext(imgFile) == fileExt {
-			isSupported = true
-			break
-		}
-	}
-
-	if !isSupported {
-		log.Fatal(errors.New("ERROR: Unsupported file type. Please input a png or jpeg"))
-	}
 
 	Image, err := getImage(img)
 
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	if mode == "normal" {
 		out, err := build.FastCompile([]block.Collection{normMode(Image)})
 
 		if err != nil {
-			log.Fatal(err)
+			return "", err
 		}
 
-		return out
+		return out, nil
 	} else if mode == "fine" {
 		out, err := build.Compile([]block.Collection{fineMode(Image)})
 
 		if err != nil {
-			log.Fatal(err)
+			return "", err
 		}
 
-		return out
+		return out, nil
 	}
-	return "ERROR"
+	return "", errors.New("UNDEFINED ERROR")
 }
-
 func normMode(Image image.Image) block.Collection {
 
 	MaxX := Image.Bounds().Max.X
