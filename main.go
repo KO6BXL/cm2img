@@ -1,4 +1,4 @@
-package main
+package cm2img
 
 import (
 	"errors"
@@ -14,9 +14,7 @@ import (
 	"github.com/nameless9000/cm2go/build"
 )
 
-func main() {
-	var mode = os.Args[1]
-	var imgFile = os.Args[2]
+func Gen(mode, imgFile string) {
 
 	img, err := os.Open(imgFile)
 
