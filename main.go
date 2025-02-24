@@ -12,22 +12,10 @@ import (
 	"github.com/nameless9000/cm2go/build"
 )
 
-func Gen(mode, imgFile string) (string, error) {
+func Gen(mode string, img image.Image) (string, error) {
 
-	img, err := os.Open(imgFile)
-
-	if err != nil {
-		return "", err
-	}
-	defer img.Close()
-
-	Image, err := getImage(img)
-
-	if err != nil {
-		return "", err
-	}
 	if mode == "normal" {
-		out, err := build.FastCompile([]block.Collection{normMode(Image)})
+		out, err := build.FastCompile([]block.Collection{normMode(img)})
 
 		if err != nil {
 			return "", err
@@ -35,7 +23,7 @@ func Gen(mode, imgFile string) (string, error) {
 
 		return out, nil
 	} else if mode == "fine" {
-		out, err := build.Compile([]block.Collection{fineMode(Image)})
+		out, err := build.Compile([]block.Collection{fineMode(img)})
 
 		if err != nil {
 			return "", err
@@ -115,7 +103,7 @@ func fineMode(Image image.Image) block.Collection {
 	return collection
 }
 
-func getImage(img *os.File) (image.Image, error) {
+func GetImage(img *os.File) (image.Image, error) {
 	if path.Ext(img.Name()) == ".jpeg" || path.Ext(img.Name()) == ".jpg" {
 		Image, err := jpeg.Decode(img)
 

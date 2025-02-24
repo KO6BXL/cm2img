@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/ko6bxl/cm2img"
 )
@@ -17,7 +19,19 @@ func main() {
 	if file == "USER IS BEING VERY DUMB" {
 		fmt.Println("Input a file because file=" + file)
 	} else {
-		fmt.Println(cm2img.Gen(mode, file))
+		imgFile, err := os.Open(file)
+		defer imgFile.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		imageImage, err  := cm2img.GetImage(imgFile)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println(cm2img.Gen(mode, imageImage))
 	}
 
 }
