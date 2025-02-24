@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/disintegration/imaging"
 	"github.com/ko6bxl/cm2img"
 )
 
@@ -25,11 +26,12 @@ func main() {
 			log.Fatal(err)
 		}
 
-		imageImage, err  := cm2img.GetImage(imgFile)
+		imageImage, err := cm2img.GetImage(imgFile)
 
 		if err != nil {
 			log.Fatal(err)
 		}
+		imageImage = imaging.Resize(imageImage, 128, 128, imaging.Lanczos)
 
 		fmt.Println(cm2img.Gen(mode, imageImage))
 	}
