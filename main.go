@@ -8,8 +8,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/nameless9000/cm2go/block"
-	"github.com/nameless9000/cm2go/build"
+	"github.com/ko6bxl/cm2go/block"
+	"github.com/ko6bxl/cm2go/build"
 )
 
 func Gen(mode string, img image.Image) (string, error) {
